@@ -1,3 +1,5 @@
+const { body, validationResult } = require( 'express-validator' );
+
 const Post = require( '../models/post' );
 
 exports.postList = ( req, res, next ) => {
@@ -8,9 +10,7 @@ exports.postDetail = ( req, res, next ) => {
   res.send( 'Post detail GET' )
 };
 
-exports.postCreate = ( req, res, next ) => {
-  res.send( 'Post create POST' );
-};
+exports.postCreate = [];
 
 exports.postDelete = ( req, res, next ) => {
   res.send( 'Post delete DELETE' );

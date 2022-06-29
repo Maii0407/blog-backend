@@ -14,8 +14,4 @@ const UserSchema = new Schema({
   }
 });
 
-UserSchema.pre( 'remove', function( next ) {
-  this.model( 'Post' ).deleteMany({ user: this._id }, next);
-});
-
 module.exports = mongoose.model( 'User', UserSchema );

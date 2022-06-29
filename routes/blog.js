@@ -6,17 +6,17 @@ const postController = require( '../controllers/postController' );
 const commentController = require( '../controllers/commentController' );
 
 /* GET home page. */
-router.get( '/', postController.postList );
+router.get( '/posts', postController.postList );
 
-router.post( '/posts/create', postController.postCreate );
+router.post( '/posts', postController.postCreate );
 router.get( '/posts/:postId', postController.postDetail );
 router.delete( '/posts/:postId', postController.postDelete );
 router.put( '/posts/:postId', postController.postUpdate );
 
-router.post( '/comments/create', commentController.commentCreate );
+router.post( '/comments', commentController.commentCreate );
 router.delete( '/comments/:commentId', commentController.commentDelete );
 router.put( '/comments/:commentId', commentController.commentUpdate );
 
-router.post( '/user/create', userController.userSignUp );
+router.post( '/user', userController.userSignUp );
 
 module.exports = router;
