@@ -35,7 +35,7 @@ exports.userLogin = async ( req, res, next ) => {
   try {
     const found = await bcrypt.compare( req.body.password, user.password );
     const opts = {};
-    opts.expiresIn = 120 //token expires in 2 min
+    opts.expiresIn = 900 //'10h' //token expires in 5 min
     const secret = `${ process.env.SECRETKEY }`;
     const token = jwt.sign({ userID: user.userID }, secret, opts);
 
@@ -52,8 +52,4 @@ exports.userLogin = async ( req, res, next ) => {
   catch( err ) {
     console.log( err )
   }
-};
-
-exports.userProtected = ( req, res, next ) => {
-  return res.status(200).send( 'This is a protected route' )
 };
