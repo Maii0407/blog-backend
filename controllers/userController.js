@@ -29,22 +29,28 @@ exports.userSignUp = [
   }
 ];
 
-exports.userLogin = ( req, res, next ) => {
-  let { userID, password } = req.body;
+exports.userLogin = async ( req, res, next ) => {
+  const user = await User.findOne({ userID: req.body.userID });
 
-  if( userID === `${ process.env.USERID }` ) {
-    if( password === `${ process.env.SECRETKEY }` ) {
-      const opts = {}
-      opts.expiresIn = 120; //token expires in 2 min
-      const secret = `${ process.env.SECRETKEY }`;
-      const token = jwt.sign({ userID }, secret, opts );
+  try {
+    const found = await bcrypt.compare( req.body.password, user.password );
+    const opts = {};
+    opts.expiresIn = 120 //token expires in 2 min
+    const secret = `${ process.env.SECRETKEY }`;
+    const token = jwt.sign({ userID: user.userID }, secret, opts);
 
+    if( found ) {
       return res.status(200).json({
         message: 'Auth Passed',
         token
       });
     }
-    return res.status(401).json({ message: 'Auth Failed' })
+    else {
+      return res.status(401).json({ message: 'Auth Failed' });
+    }
+  }
+  catch( err ) {
+    console.log( err )
   }
 };
 

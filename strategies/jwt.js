@@ -9,7 +9,7 @@ opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = `${ process.env.SECRETKEY }`;
 
 module.exports = new JwtStrategy( opts, ( jwt_payload, done ) => {
-  if( jwt_payload.userID ===`${ process.env.USERID }` ) {
+  if( jwt_payload.userID === `${ process.env.USERID }` ) {
     return done( null, true );
   }
 
