@@ -16,8 +16,18 @@ router.post(
 );
 
 router.get( '/posts/:postId', postController.postDetail );
-router.delete( '/posts/:postId', postController.postDelete );
-router.put( '/posts/:postId', postController.postUpdate );
+
+router.delete(
+  '/posts/:postId',
+  passport.authenticate( 'jwt', { session: false }),
+  postController.postDelete
+);
+
+router.put(
+  '/posts/:postId',
+  passport.authenticate( 'jwt', { session: false }),
+  postController.postUpdate
+);
 
 router.post( '/comments', commentController.commentCreate );
 router.delete( '/comments/:commentId', commentController.commentDelete );
