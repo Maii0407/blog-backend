@@ -7,6 +7,11 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
+const jwt = require( 'jsonwebtoken' );
+const passport = require( 'passport' );
+const jwtStrategy = require( './strategies/jwt' );
+passport.use( jwtStrategy );
+
 const blogRouter = require('./routes/blog');
 
 const app = express();

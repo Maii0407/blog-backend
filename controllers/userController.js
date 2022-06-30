@@ -1,5 +1,9 @@
+const dotenv = require( 'dotenv' );
+dotenv.config();
+
 const { body, validationResult } = require( 'express-validator' );
 const bcrypt = require( 'bcryptjs' );
+const jwt = require( 'jsonwebtoken' );
 
 const User = require( '../models/user' );
 
@@ -24,3 +28,26 @@ exports.userSignUp = [
     })
   }
 ];
+
+exports.userLogin = ( req, res, next ) => {
+  let { userID, password } = req.body;
+
+  if( userID === `${ process.env.USERID }` ) {
+    if( password === `${ process.env.SECRETKEY }` ) {
+      const opts = {}
+      opts.expiresIn = 120; //token expires in 2 min
+      const secret = `${ process.env.SECRETKEY }`;
+      const token = jwt.sign({ userID }, secret, opts );
+
+      return res.status(200).json({
+        message: 'Auth Passed',
+        token
+      });
+    }
+    return res.status(401).json({ message: 'Auth Failed' })
+  }
+};
+
+exports.userProtected = ( req, res, next ) => {
+  return res.status(200).send( 'This is a protected route' )
+};

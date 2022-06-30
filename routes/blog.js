@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const passport = require( 'passport' );
 
 const userController = require( '../controllers/userController' );
 const postController = require( '../controllers/postController' );
@@ -18,5 +19,8 @@ router.delete( '/comments/:commentId', commentController.commentDelete );
 router.put( '/comments/:commentId', commentController.commentUpdate );
 
 router.post( '/user', userController.userSignUp );
+router.post( '/login', userController.userLogin );
+router.get( '/protected', passport.authenticate( 'jwt', { session: false }),
+  userController.userProtected );
 
 module.exports = router;
