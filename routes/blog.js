@@ -7,6 +7,10 @@ const postController = require( '../controllers/postController' );
 const commentController = require( '../controllers/commentController' );
 
 /* GET home page. */
+router.post( '/user', userController.userSignUp );
+router.post( '/login', userController.userLogin );
+
+//posts routes
 router.get( '/posts', postController.postList );
 
 router.post(
@@ -22,18 +26,25 @@ router.delete(
   passport.authenticate( 'jwt', { session: false }),
   postController.postDelete
 );
-
 router.put(
   '/posts/:postId',
   passport.authenticate( 'jwt', { session: false }),
   postController.postUpdate
 );
 
-router.post( '/comments', commentController.commentCreate );
-router.delete( '/comments/:commentId', commentController.commentDelete );
-router.put( '/comments/:commentId', commentController.commentUpdate );
+//comments routes
+router.get( '/posts/:postId/comments', commentController.commentList );
+router.post( '/posts/:postId/comments', commentController.commentCreate );
 
-router.post( '/user', userController.userSignUp );
-router.post( '/login', userController.userLogin );
+router.delete(
+  '/posts/:postId/comments/:commentId',
+  passport.authenticate( 'jwt', { session: false }),
+  commentController.commentDelete
+);
+router.put(
+  '/posts/:postId/comments/:commentId',
+  passport.authenticate( 'jwt', { session: false }),
+  commentController.commentUpdate
+);
 
 module.exports = router;

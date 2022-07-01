@@ -23,7 +23,7 @@ exports.postDetail = ( req, res, next ) => {
       Post.findById( req.params.postId ).populate( 'user' ).exec( callback );
     },
     comments: ( callback ) => {
-      Comment.find({ 'post': req.params.id }).exec( callback );
+      Comment.find({ 'post': req.params.postId }, '_id').exec( callback );
     }
   }, ( err, results ) => {
     if( err ) { return next( err ); }
@@ -57,7 +57,7 @@ exports.postCreate = [
     }).save( err => {
       if( err ) { return next( err ); }
 
-      res.json({ post });
+      return res.json({ post });
     })
   }
 ];
@@ -66,9 +66,10 @@ exports.postDelete = ( req, res, next ) => {
   Post.findById( req.params.postId ).exec( ( err, post ) => {
     if( post ) {
       post.remove();
+      return res.json({ message: 'Post deleted...' });
     }
 
-    return res.json({ message: 'Post deleted...' });
+    return res.json({ message: 'Failed post delete...' });
   });
 };
 
