@@ -7,6 +7,9 @@ const postController = require( '../controllers/postController' );
 const commentController = require( '../controllers/commentController' );
 
 /* GET home page. */
+router.get( '/', ( req, res, next ) => {
+  res.send( 'Welcome to blog REST API' );
+});
 router.post( '/user', userController.userSignUp );
 router.post( '/login', userController.userLogin );
 
