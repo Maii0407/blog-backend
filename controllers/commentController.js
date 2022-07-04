@@ -41,7 +41,3 @@ exports.commentDelete = ( req, res, next ) => {
     return res.json({ message: 'Failed comment delete...' })
   })
 };
-
-exports.commentUpdate = ( req, res, next ) => {
-  res.send( 'Comment update PUT' );
-};
